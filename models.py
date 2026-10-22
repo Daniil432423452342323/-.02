@@ -1,4 +1,5 @@
 """Модели данных для проекта автоматизации управления задачами."""
+from datetime import datetime
 
 class Task:
     """Класс, описывающий задачу в системе."""
@@ -19,6 +20,13 @@ class Task:
     def is_available(self):
         """Домашнее задание 1: возвращает True, если задача ещё не выполнена."""
         return self.status != "Выполнена"
+
+    def price_with_discount_auto(self, base_price, date_calc=None):
+        """Цена со скидкой по алгоритму ДЭ (Задание 8)."""
+        from discount import calculate_price_with_discount
+        if date_calc is None:
+            date_calc = datetime.now()
+        return calculate_price_with_discount(self.id, base_price, date_calc)
 
     def info(self):
         """Строка с информацией о задаче."""
