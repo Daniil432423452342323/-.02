@@ -29,8 +29,8 @@ class Task:
         return calculate_price_with_discount(self.id, base_price, date_calc)
 
     def discounted_price(self):
-        """Цена со скидкой 25% (упрощённо для тренировки веток)."""
-        return 1000 * 0.90   # �������� � main
+        """Цена со скидкой 25% (итоговое значение после разрешения конфликта)."""
+        return 1000 * 0.75
 
     def info(self):
         """Строка с информацией о задаче."""
