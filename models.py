@@ -28,6 +28,10 @@ class Task:
             date_calc = datetime.now()
         return calculate_price_with_discount(self.id, base_price, date_calc)
 
+    def discounted_price(self):
+        """Цена со скидкой 25% (упрощённо для тренировки веток)."""
+        return 1000 * 0.75
+
     def info(self):
         """Строка с информацией о задаче."""
         return (
