@@ -1,4 +1,4 @@
-"""Каталог товаров с полной обработкой полей, краш-тестами и индикаторами."""
+"""Каталог товаров с полной обработкой полей, краш-тестами, индикаторами и формой просмотра."""
 import tkinter as tk
 from app_resources import get_product_image  # Импорт нашего рабочего модуля ресурсов
 
@@ -19,6 +19,21 @@ def create_product_card(parent, product):
     # Модульное добавление компонентов карточки (Рефакторинг)
     _add_image(card, product, bg_color)
     _add_text_info(card, product, bg_color, qty)
+
+    # === ИНТЕГРАЦИЯ КЛИКА ПАРЫ 19 ===
+    def _open_view(event):
+        from view_form import ViewForm
+        def mock_order_callback(prod, size):
+            print(f"[ORDER] Товар ID={prod} добавлен, выбранный размер: {size}")
+            
+        ViewForm(parent, product, on_add_to_order=mock_order_callback)
+
+    # Привязываем клик мыши к самой карточке и всем её дочерним элементам
+    card.bind("<Button-1>", _open_view)
+    for child in card.winfo_children():
+        child.bind("<Button-1>", _open_view)
+    # ===============================
+
     return card
 
 def _get_card_color(qty):
