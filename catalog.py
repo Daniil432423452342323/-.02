@@ -1,7 +1,6 @@
 """Каталог товаров с полной обработкой полей, краш-тестами и индикаторами."""
 import tkinter as tk
-import styles  # Импортируем весь модуль стилей, чтобы избежать ошибок кэша
-from app_resources import get_product_image  # Исправленный импорт нашего модуля ресурсов
+from app_resources import get_product_image  # Импорт нашего рабочего модуля ресурсов
 
 def create_product_card(parent, product):
     """Создаёт карточку товара по макету КИМ."""
@@ -11,7 +10,7 @@ def create_product_card(parent, product):
     else:
         qty = product if product is not None else 0
     
-    # Синхронное определение фона (Пара 10, 12, 13)
+    # Синхронное определение фона (Пара 10, 12, 13, 14)
     bg_color = _get_card_color(qty)
     
     card = tk.Frame(parent, bg=bg_color, bd=1, relief="solid")
@@ -23,8 +22,8 @@ def create_product_card(parent, product):
     return card
 
 def _get_card_color(qty):
-    """Возвращает красный цвет при дефиците (<=3), иначе белый."""
-    return styles.COLOR_HIGHLIGHT if qty <= 3 else styles.COLOR_MAIN_BG
+    """Возвращает точный светло-красный цвет КИМ при дефиците (<=3), иначе белый."""
+    return "#ff8080" if qty <= 3 else "#FFFFFF"
 
 def _add_image(card, product, bg_color):
     """Добавляет изображение или безопасную заглушку."""
@@ -60,8 +59,8 @@ def _add_text_info(card, product, bg_color, qty):
         composition = product[4] if len(product) > 4 and product[4] else "[Не указан]"
         price = product[5] if len(product) > 5 and product[5] is not None else 0
     
-    # Строка 1: Производство | Наименование по макету
-    _add_label(text_frame, f"{production} | {name}", bg_color, bold=True, size=styles.FONT_SIZE_HEADER)
+    # Строка 1: Производство | Наименование по макету (Шрифт 14 из КИМ)
+    _add_label(text_frame, f"{production} | {name}", bg_color, bold=True, size=14)
     
     # Строка 2: Категория
     _add_label(text_frame, f"Категория: {category}", bg_color)
@@ -73,14 +72,12 @@ def _add_text_info(card, product, bg_color, qty):
     # Строка 4: Состав
     _add_label(text_frame, f"Состав: {composition}", bg_color)
     
-    # Строка 5: Цена (выровнена по правому краю макета)
-    _add_label(text_frame, f"{price} руб.", bg_color, bold=True, size=styles.FONT_SIZE_HEADER, align="e")
+    # Строка 5: Цена (выровнена по правому краю макета, Шрифт 14 из КИМ)
+    _add_label(text_frame, f"{price} руб.", bg_color, bold=True, size=14, align="e")
 
-def _add_label(parent, text, bg_color, bold=False, size=None, align="w"):
-    """Универсальная функция добавления текстовой метки."""
-    if size is None:
-        size = styles.FONT_SIZE_NORMAL
-    tk.Label(parent, text=text, font=styles.font(size, bold=bold), bg=bg_color, anchor=align).pack(fill="x")
+def _add_label(parent, text, bg_color, bold=False, size=12, align="w"):
+    """Универсальная функция добавления текстовой метки с фиксированным шрифтом Calibri."""
+    tk.Label(parent, text=text, font=("Calibri", size, "bold" if bold else "normal"), bg=bg_color, anchor=align).pack(fill="x")
 
 def _indicator(qty):
     """Индикатор остатка «много/мало» по строгому порогу КИМ (Пара 13)."""
